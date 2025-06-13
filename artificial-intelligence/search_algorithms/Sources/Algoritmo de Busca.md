@@ -10,15 +10,15 @@
 
 ## 📚 **Mapa da Jornada**
 
-|🔢|🌟 Etapa|🎯 Objetivo|
-|---|---|---|
-|1|**Fundamentos de Busca em IA**|Entender o que é busca, estados e problemas|
-|2|**Busca Não Informada**|BFS, DFS, Custo Uniforme, Iterativa|
-|3|**Busca Informada (Heurística)**|Greedy, A*, IDA*, funções heurísticas|
-|4|**Busca Local e Metaheurísticas**|Hill Climbing, Simulated Annealing, Genéticos|
-|5|**Busca em Ambientes Competitivos**|Minimax, Poda Alpha-Beta|
-|6|**Otimização e Planejamento Avançado**|Aplicações, Robótica, Planejamento|
-|7|**Desafio Final - Projeto de IA**|Resolver um problema real|
+| 🔢  | 🌟 Etapa                               | 🎯 Objetivo                                   |
+| --- | -------------------------------------- | --------------------------------------------- |
+| 1   | **Fundamentos de Busca em IA**         | Entender o que é busca, estados e problemas   |
+| 2   | **Busca Não Informada**                | [[BFS]], DFS, Custo Uniforme, Iterativa       |
+| 3   | **Busca Informada (Heurística)**       | Greedy, A*, IDA*, funções heurísticas         |
+| 4   | **Busca Local e Metaheurísticas**      | Hill Climbing, Simulated Annealing, Genéticos |
+| 5   | **Busca em Ambientes Competitivos**    | Minimax, Poda Alpha-Beta                      |
+| 6   | **Otimização e Planejamento Avançado** | Aplicações, Robótica, Planejamento            |
+| 7   | **Desafio Final - Projeto de IA**      | Resolver um problema real                     |
 
 ---
 
@@ -813,3 +813,161 @@ Quer agora:
 3. Ver aplicações reais dessas buscas em IA e jogos?
     
 
+---
+
+# ⚔️ **Algoritmos Adversariais**
+
+> “Quando há um oponente tentando te vencer, sua busca precisa prever o futuro.”
+
+---
+
+## 🎮 **Contexto: Jogos Competitivos**
+
+Algoritmos adversariais são usados quando:
+
+- Existem **dois ou mais agentes** com **objetivos opostos**
+    
+- Como: **xadrez, damas, jogo-da-velha, batalha naval, RTS, etc.**
+    
+
+---
+
+## 🤺 **Problema: Decidir o melhor movimento quando há um inimigo tentando te derrotar**
+
+Você não pode apenas procurar o melhor caminho.  
+Você precisa prever **como o inimigo vai responder** ao seu movimento.
+
+---
+
+## 🧠 **Minimax** — o básico da inteligência adversarial
+
+### 🔍 Ideia:
+
+- Você quer **maximizar sua vitória**
+    
+- Seu inimigo quer **minimizar sua vitória** (ou seja, te prejudicar)
+    
+
+Logo, o algoritmo **alterna entre níveis de MAX e níveis de MIN** na árvore de decisões.
+
+---
+
+## 🌳 Exemplo de árvore Minimax:
+
+```
+               [Você]
+              /   |   \
+            3     5     2
+          [Inimigo]
+        /   |     |    \
+      2     3     4     1
+```
+
+- No seu turno: escolha a jogada com **melhor retorno no pior cenário**
+    
+- No turno do inimigo: ele escolherá a **pior jogada para você**
+    
+
+---
+
+## 🎲 **Etapas:**
+
+1. Gerar a **árvore de jogo** com possíveis movimentos
+    
+2. Avaliar os **nós finais (folhas)** com uma função de utilidade (ex: vitória = +1, derrota = -1, empate = 0)
+    
+3. **Propagar os valores para cima**, alternando:
+    
+    - **MAX** em seus turnos
+        
+    - **MIN** nos turnos do adversário
+        
+
+---
+
+## ✅ **Propriedades do Minimax:**
+
+|Propriedade|Valor|
+|---|---|
+|Tipo de jogo|Determinístico, dois jogadores, soma zero|
+|Completude|✔️ (se árvore completa ou profundidade limitada)|
+|Ótima|✔️ (contra adversário perfeito)|
+|Complexidade|O(bd)O(b^d), onde `b` = ramificação, `d` = profundidade|
+
+---
+
+## 🧪 **Exemplo real — Jogo-da-Velha**
+
+- Você é o X
+    
+- O adversário é o O
+    
+- Cada jogada gera um novo estado do tabuleiro
+    
+- A função de utilidade avalia se o jogo está ganho/perdido/empatado
+    
+
+---
+
+## 🧱 **Template básico do Minimax (versão recursiva):**
+
+```python
+def minimax(state, depth, maximizing_player):
+    if game_over(state) or depth == 0:
+        return evaluate(state)
+
+    if maximizing_player:
+        max_eval = float('-inf')
+        for child in generate_moves(state, 'X'):
+            eval = minimax(child, depth - 1, False)
+            max_eval = max(max_eval, eval)
+        return max_eval
+    else:
+        min_eval = float('inf')
+        for child in generate_moves(state, 'O'):
+            eval = minimax(child, depth - 1, True)
+            min_eval = min(min_eval, eval)
+        return min_eval
+```
+
+---
+
+## 🚀 **Avançado: Poda Alfa-Beta**
+
+> Reduz o número de nós que precisamos avaliar, **sem perder a perfeição**
+
+---
+
+### 📉 Quando usar:
+
+- Árvores grandes como xadrez (altíssima profundidade)
+    
+- Permite “pular” ramos que com certeza não vão ser escolhidos
+    
+
+---
+
+## 🔍 **Resumo Final até aqui:**
+
+|Técnica|Para...|Tipo de IA|
+|---|---|---|
+|BFS / DFS / UCS / A*|Navegação e planejamento|Busca cega / informada|
+|Minimax|Jogos contra inimigos|Adversarial|
+|Poda Alfa-Beta|Otimizar o Minimax|Adversarial otimizado|
+
+---
+
+# 🎯 **Próximo passo:**
+
+Qual caminho você quer seguir agora?
+
+1. **Implementar o Minimax em um jogo da velha?**
+    
+2. **Ver como fazer poda Alfa-Beta no código?**
+    
+3. **Ver IA de jogos com aprendizado (Reinforcement Learning)?**
+    
+4. **Avançar para problemas com incerteza (probabilidade, Bayes)?**
+    
+
+Você escolhe a próxima batalha, estrategista da IA! 🧠⚔️
